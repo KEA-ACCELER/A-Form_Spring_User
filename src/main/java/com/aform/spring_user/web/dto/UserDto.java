@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 public class UserDto {
    
@@ -41,6 +42,7 @@ public class UserDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class RegistRequestDto {
         private String userId;
+        @Setter
         private String userPw;
         private String email;
         private String name;
@@ -88,5 +90,12 @@ public class UserDto {
             this.userId = userId;
             this.profile = profile;
         }
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class LoginRequestDto{
+        private String userId;
+        private String userPw;
     }
 }

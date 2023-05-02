@@ -1,8 +1,16 @@
 package com.aform.spring_user.web;
 
+import java.time.Instant;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +29,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    // @Autowired
+    // JwtEncoder jwtEncoder;
+
     /*
      * 회원가입 API
      * 
@@ -28,9 +39,22 @@ public class UserController {
      * 
      * @return 201 CREATED , User
      */
-    @PostMapping(path = "")
+    @PostMapping(path = "/join")
     public ResponseEntity<User> RegistUser(@RequestBody UserDto.RegistRequestDto regist) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(regist));
+
+    }
+
+    /**
+     * 로그인
+     * 
+     * @RequestBody UserDto.loginRequestDto
+     * 
+     * @return 200 ok
+     */
+    @PostMapping(path = "/login")
+    public ResponseEntity<String> userLogin(@RequestBody UserDto.LoginRequestDto loginRequestDto) {
+        return ResponseEntity.ok(userService.userLogin(loginRequestDto));
     }
 
     /*
@@ -52,7 +76,7 @@ public class UserController {
      * 
      * @return ok, "deleted"
      */
-    @DeleteMapping(path = "/{userId}")
+    @DeleteMapping(path = "/userdelete/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable(value = "userId") String userId) {
         userService.deleteUser(userId);
         return ResponseEntity.ok("deleted");
@@ -65,11 +89,30 @@ public class UserController {
      * 
      * @return ok, userDto.GetUserResponseDto
      */
-    @GetMapping(path = "/{userId}")
+    @GetMapping(path = "/userinfo/{userId}")
     public ResponseEntity<UserDto.GetUserResponseDto> getUserInfo(@PathVariable(value = "userId") String userId) {
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
- 
+
+    // public String token(Authentication authentication) {
+    //     Instant now = Instant.now();
+    //     long expiry = 36000L;
+    //     // @formatter:off
+	// 	String scope = authentication.getAuthorities().stream()
+	// 			.map(GrantedAuthority::getAuthority)
+	// 			.collect(Collectors.joining(" "));
+	// 	JwtClaimsSet claims = JwtClaimsSet.builder()
+	// 			.issuer("self")
+	// 			.issuedAt(now)
+	// 			.expiresAt(now.plusSeconds(expiry))
+	// 			.subject(authentication.getName())
+	// 			.claim("scope", scope)
+	// 			.build();
+    //     System.out.println("/token pass through");
+	// 	// @formatter:on
+    //     return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    // }
+
 }
 //
