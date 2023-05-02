@@ -49,7 +49,7 @@ public class UserService {
     //아이디 중복 확인
     @Transactional
     public boolean isDuplicatedId(String userId){
-        return userRepository.existsByUserId(userId)록
+        return userRepository.existsByUserId(userId);
     }
 
 

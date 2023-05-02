@@ -14,7 +14,7 @@ import com.aform.spring_user.domain.file.File;
 import com.aform.spring_user.service.FileService;
 import com.aform.spring_user.web.dto.FileDto;
 
-@Controller
+@RestController
 @RequestMapping(path = "/app/file")
 public class FileController {
     
