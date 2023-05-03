@@ -3,10 +3,11 @@ package com.aform.spring_user.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,32 +30,32 @@ public class FileController {
      * @return 201 CREATED ,
      */
     @PostMapping
-    public ResponseEntity<File> uploadFile(FileDto.UploadFileRequestDto uploadFileRequestDto) {
+    public ResponseEntity<File> uploadFile(@RequestBody FileDto.UploadFileRequestDto uploadFileRequestDto, Authentication authentication) {
         return ResponseEntity.status(HttpStatus.CREATED).body(fileService.uploadFile(uploadFileRequestDto));
     }
 
     /*
      * 사진가져오기
      * 
-     * @variable userId
+     * 
      * 
      * @return ok
      */
-    @GetMapping(path = "/{userId}")
-    public ResponseEntity<FileDto.FileResponseDto> getFile(@PathVariable(value = "userId") String userId) {
-        return ResponseEntity.ok(fileService.getFile(userId));
+    @GetMapping(path = "/getImg")
+    public ResponseEntity<FileDto.FileResponseDto> getFile(Authentication authentication) {
+        return ResponseEntity.ok(fileService.getFile(authentication.getName()));
     }
 
     /*
      * 사진삭제
      * 
-     * @variable userId
+     * 
      * 
      * @return ok, "deleted"
      */
-    @DeleteMapping(path = "/{userId}")
-    public ResponseEntity<String> deleteFile(@PathVariable(value = "userId") String userId) {
-        fileService.deleteFile(userId);
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<String> deleteFile(Authentication authentication) {
+        fileService.deleteFile(authentication.getName());
         return ResponseEntity.ok("deleted");
     }
 }

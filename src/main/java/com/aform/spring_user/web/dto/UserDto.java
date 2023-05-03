@@ -2,7 +2,6 @@ package com.aform.spring_user.web.dto;
 
 import java.time.LocalDateTime;
 
-import com.aform.spring_user.domain.file.File;
 import com.aform.spring_user.domain.user.User;
 
 import lombok.AccessLevel;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class UserDto {
-   
+
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class GetUserResponseDto {
@@ -50,21 +49,6 @@ public class UserDto {
         private String address;
         private LocalDateTime birth; 
         private Boolean gender;
-        // 이미지 가져와야함
-        
-        // @Builder
-        // public RegistRequestDto(String userId, String userPw, String email, String name, 
-        //                         String phone, String address, LocalDateTime birth, Boolean gender){
-        //     this.userId = userId;
-        //     this.userPw = userPw;
-        //     this.email = email;
-        //     this.name = name;
-        //     this.phone = phone;
-        //     this.address = address;
-        //     this.birth = birth;
-        //     this.gender = gender;                        
-
-        //                         }
 
         public User toEntity(){
             return User.builder()

@@ -44,19 +44,17 @@ public class JwtTokenFilter extends OncePerRequestFilter{ // 모든 요청마다
         
         //Token 꺼내기
         String token = authorization.split(" ")[1]; 
+        
         //Token Expired 여부
         if (JwtUtil.isExpired(token, secretKey)) {
             log.error(" ERROR : Token Expired");
             filterChain.doFilter(request, response);
             return;
         }
-
+        // Token에서 유저 정보 꺼내기
         String userName = JwtUtil.getUserId(token, secretKey);
         log.info("userName : "+userName);
 
-        //권한부여
-        // Token이 없으면 권한부여 하지 않기
-        //Token의 유효기간 확인하기
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName, null, List.of(new SimpleGrantedAuthority("USER"))); //권한 부여
 
         //Detail을 넣기

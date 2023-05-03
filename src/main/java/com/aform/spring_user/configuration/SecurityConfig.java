@@ -40,37 +40,15 @@ public class SecurityConfig {
                 .csrf().disable() // front 가 분리된 환경을 가정하고 있기 때문에 csrf를 disable
                 .httpBasic().disable()//token 기반 인증이기 때문에 기본적인 http 인증은 disable
                 .cors().and()
-                //.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                //.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) //jjwt 라이브러리가 Java에서 JWT를 생성하고 검증하는 데 사용되는 반면 OAuth 2.0은 토큰 전송 방식을 지정하는 프로토콜
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션저장기능                                                                                              // 제거
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/app/user/login", "/app/user/join").permitAll()
+                        .requestMatchers("/app/user/login", "/app/user/join", "/app/user/Idcheck/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtTokenFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class);
-                // .exceptionHandling((exceptions) -> exceptions //
-                //         .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                //         .accessDeniedHandler(new BearerTokenAccessDeniedHandler()));
-
-        //jjwt 라이브러리가 Java에서 JWT를 생성하고 검증하는 데 사용되는 반면 OAuth 2.0은 토큰 전송 방식을 지정하는 프로토콜
-
 
         return http.build();
-
     }
-
-    // @Bean
-    // public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-    //         throws Exception {
-    //     return authenticationConfiguration.getAuthenticationManager();
-    // }
-
-    // @Bean
-    // public WebSecurityCustomizer webSecurityCustomizer() {
-    // return null; // 여기다가 db설정?
-
-    // // configure Web security...
-
-    // }
-
 
 }
