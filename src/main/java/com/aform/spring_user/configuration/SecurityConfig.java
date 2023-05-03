@@ -1,38 +1,33 @@
 package com.aform.spring_user.configuration;
 
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
-import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.aform.spring_user.service.UserService;
+
+import lombok.RequiredArgsConstructor;
 
 
+@EnableWebSecurity(debug = true)
 // @EnableWebSecurity(debug = true) // 기본적인 웹 보안 활성화
 // 추가적인 설정을 위해 WebSecurityConfigurer를 implements하거나
 // WebSecurityConfigurerAdapter를 extends하는 방법이 있다.
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
-    // @Value("${jwt.public.key}")
-    // RSAPublicKey key;
+    
+    private final UserService userService;
 
-    // @Value("${jwt.private.key}")
-    // RSAPrivateKey priv;
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     /*
      * 보호할 URL경로 정의 / , /app은 인증이 필요하지 않도록 구성
@@ -50,15 +45,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/app/user/login", "/app/user/join").permitAll()
                         .anyRequest().authenticated()
-                );
+                )
+                .addFilterBefore(new JwtTokenFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class);
                 // .exceptionHandling((exceptions) -> exceptions //
                 //         .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                 //         .accessDeniedHandler(new BearerTokenAccessDeniedHandler()));
-        // TODO csrf 토큰 발급
-        // .formLogin((form) -> form
-        // .loginPage("/app/user/login")
-        // .permitAll()));
-        // .logout((logout) -> logout.permitAll());
+
         //jjwt 라이브러리가 Java에서 JWT를 생성하고 검증하는 데 사용되는 반면 OAuth 2.0은 토큰 전송 방식을 지정하는 프로토콜
 
 
@@ -78,19 +70,6 @@ public class SecurityConfig {
 
     // // configure Web security...
 
-    // }
-
-    // @Bean
-    // UserDetailsService users() { // db에서 Authentication의 details들을 리턴. 이 정보를 가지고 PasswordEncoder를 사용해서 input된
-    //                              // 비밀번호와 매칭
-    //     // @formatter:off
-	// 	return new InMemoryUserDetailsManager(
-	// 		User.withUsername("user")
-	// 			.password("{noop}password")
-	// 			.authorities("app")
-	// 			.build()
-	// 	);
-	// 	// @formatter:on
     // }
 
 

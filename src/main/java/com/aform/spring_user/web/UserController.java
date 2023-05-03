@@ -77,7 +77,7 @@ public class UserController {
      * @return ok, "deleted"
      */
     @DeleteMapping(path = "/userdelete/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable(value = "userId") String userId) {
+    public ResponseEntity<String> deleteUser(@PathVariable(value = "userId") String userId, Authentication authentication) {
         userService.deleteUser(userId);
         return ResponseEntity.ok("deleted");
     }
@@ -90,29 +90,12 @@ public class UserController {
      * @return ok, userDto.GetUserResponseDto
      */
     @GetMapping(path = "/userinfo/{userId}")
-    public ResponseEntity<UserDto.GetUserResponseDto> getUserInfo(@PathVariable(value = "userId") String userId) {
-        return ResponseEntity.ok(userService.getUser(userId));
+    public ResponseEntity<UserDto.GetUserResponseDto> getUserInfo(@PathVariable(value = "userId") String userId, Authentication authentication) {
+        return ResponseEntity.ok(userService.getUser(userId, authentication));
     }
 
 
-    // public String token(Authentication authentication) {
-    //     Instant now = Instant.now();
-    //     long expiry = 36000L;
-    //     // @formatter:off
-	// 	String scope = authentication.getAuthorities().stream()
-	// 			.map(GrantedAuthority::getAuthority)
-	// 			.collect(Collectors.joining(" "));
-	// 	JwtClaimsSet claims = JwtClaimsSet.builder()
-	// 			.issuer("self")
-	// 			.issuedAt(now)
-	// 			.expiresAt(now.plusSeconds(expiry))
-	// 			.subject(authentication.getName())
-	// 			.claim("scope", scope)
-	// 			.build();
-    //     System.out.println("/token pass through");
-	// 	// @formatter:on
-    //     return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-    // }
+  
 
 }
 //

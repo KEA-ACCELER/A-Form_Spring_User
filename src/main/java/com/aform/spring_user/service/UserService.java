@@ -2,6 +2,7 @@ package com.aform.spring_user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class UserService {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    private Long expireMS = 1000L * 60 * 60; //1시간
+    private Long expireMS = 1000L * 60 ; //1분
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -53,8 +54,9 @@ public class UserService {
     }
     //회원정보조회
     @Transactional
-    public UserDto.GetUserResponseDto getUser(String userId){
-        User user = userRepository.findByUserId(userId);
+    public UserDto.GetUserResponseDto getUser(String userId, Authentication authentication){
+        
+        User user = userRepository.findByUserId(authentication.getName());
         return UserDto.GetUserResponseDto.builder()
                                         .userId(user.getUserId())
                                         .userPw(user.getUserPw())
