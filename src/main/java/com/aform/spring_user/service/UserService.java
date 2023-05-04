@@ -54,7 +54,7 @@ public class UserService {
 
     // 회원정보조회
     @Transactional
-    public UserDto.GetUserResponseDto getUser(String userId, Authentication authentication) {
+    public UserDto.GetUserResponseDto getUser(Authentication authentication) {
 
         User user = userRepository.findByUserId(authentication.getName());
         return UserDto.GetUserResponseDto.builder()
@@ -72,8 +72,8 @@ public class UserService {
 
     // 회원 삭제
     @Transactional
-    public void deleteUser(String userId) {
-        userRepository.deleteByUserId(userId);
+    public void deleteUser(Authentication authentication)) {
+        userRepository.deleteByUserId(authentication.getName());
     }
 
     // 아이디 중복 확인

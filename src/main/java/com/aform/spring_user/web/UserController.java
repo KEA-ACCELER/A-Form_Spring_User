@@ -57,7 +57,7 @@ public class UserController {
      * 
      * @return ok
      */
-    @GetMapping(path = "/Idcheck/{userId}")
+    @GetMapping(path = "/idcheck/{userId}")
     public ResponseEntity<Boolean> isDuplicatedId(@PathVariable(value = "userId") String userId) {
         return ResponseEntity.ok(userService.isDuplicatedId(userId));
     }
@@ -69,9 +69,9 @@ public class UserController {
      * 
      * @return ok, "deleted"
      */
-    @DeleteMapping(path = "/userdelete/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable(value = "userId") String userId, Authentication authentication) {
-        userService.deleteUser(userId);
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<String> deleteUser(Authentication authentication) {
+        userService.deleteUser(authentication);
         return ResponseEntity.ok("deleted");
     }
 
@@ -82,9 +82,9 @@ public class UserController {
      * 
      * @return ok, userDto.GetUserResponseDto
      */
-    @GetMapping(path = "/userinfo/{userId}")
-    public ResponseEntity<UserDto.GetUserResponseDto> getUserInfo(@PathVariable(value = "userId") String userId, Authentication authentication) {
-        return ResponseEntity.ok(userService.getUser(userId, authentication));
+    @GetMapping(path = "/info")
+    public ResponseEntity<UserDto.GetUserResponseDto> getUserInfo(Authentication authentication) {
+        return ResponseEntity.ok(userService.getUser(authentication));
     }
 
 
