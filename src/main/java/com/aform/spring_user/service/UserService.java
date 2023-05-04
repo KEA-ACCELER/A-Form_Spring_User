@@ -23,7 +23,7 @@ public class UserService {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    private Long expireMS = 1000L * 60 * 60;// 1시간
+    private Long expireMS = 1000L * 60 * 60 * 24 * 7;// 1주일
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -72,7 +72,7 @@ public class UserService {
 
     // 회원 삭제
     @Transactional
-    public void deleteUser(Authentication authentication)) {
+    public void deleteUser(Authentication authentication) {
         userRepository.deleteByUserId(authentication.getName());
     }
 
