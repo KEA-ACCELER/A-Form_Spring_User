@@ -5,6 +5,7 @@ package com.aform.spring_user.configuration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -35,9 +36,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-
-                .csrf().disable() // front 가 분리된 환경을 가정하고 있기 때문에 csrf를 disable
+        http.csrf().disable() // front 가 분리된 환경을 가정하고 있기 때문에 csrf를 disable
                 .httpBasic().disable()//token 기반 인증이기 때문에 기본적인 http 인증은 disable
                 .cors().and()
                 //.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) //jjwt 라이브러리가 Java에서 JWT를 생성하고 검증하는 데 사용되는 반면 OAuth 2.0은 토큰 전송 방식을 지정하는 프로토콜
@@ -45,9 +44,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/app/user/login", "/app/user/join", "/app/user/Idcheck/**").permitAll()
                         .anyRequest().authenticated()
-                )
-                .addFilterBefore(new JwtTokenFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class);
-
+                ).addFilterBefore(new JwtTokenFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class);
+                
         return http.build();
     }
 

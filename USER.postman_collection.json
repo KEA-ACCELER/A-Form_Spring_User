@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"userId\": \"test\",\n    \"email\": \"test@test.com\",\n    \"userPs\": \"qwer1234!\",\n    \"gender\": false,\n    \"phone\": \"000-0000-0000\",\n    \"address\": \"Seoul, Korea\"\n}",
+					"raw": "{\n    \"userId\": \"test4\",\n    \"email\": \"test@test.com\",\n    \"userPw\": \"qwer1234!\",\n    \"gender\": false,\n    \"phone\": \"000-0000-0000\",\n    \"address\": \"Seoul, Korea\",\n    \"name\" : \"realname\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,7 +21,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/app/user",
+					"raw": "http://localhost:8080/app/user/join",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -29,7 +29,8 @@
 					"port": "8080",
 					"path": [
 						"app",
-						"user"
+						"user",
+						"join"
 					]
 				}
 			},
@@ -37,17 +38,74 @@
 		},
 		{
 			"name": "Login with JWT",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InRlc3Q0IiwiaWF0IjoxNjgzMTYxNTA5LCJleHAiOjE2ODMxNjUxMDl9.twM-hGVOfEqTEfi-iaH1m0fx_N7lgazG9sJNyLQScQc",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/app/user/userinfo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"app",
+						"user",
+						"userinfo"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Login and get JWT",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\":\"test4\",\n    \"userPw\": \"qwer1234!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/app/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"app",
+						"user",
+						"login"
+					]
+				}
 			},
 			"response": []
 		}

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class UserController {
      * 
      * @return 201 CREATED , User
      */
+    @CrossOrigin
     @PostMapping(path = "/join")
     public ResponseEntity<User> RegistUser(@RequestBody UserDto.RegistRequestDto regist) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(regist));
@@ -44,7 +46,9 @@ public class UserController {
      * @RequestBody UserDto.loginRequestDto
      * 
      * @return 200 ok
+     * 
      */
+    @CrossOrigin
     @PostMapping(path = "/login")
     public ResponseEntity<String> userLogin(@RequestBody UserDto.LoginRequestDto loginRequestDto) {
         return ResponseEntity.ok(userService.userLogin(loginRequestDto));
@@ -57,6 +61,7 @@ public class UserController {
      * 
      * @return ok
      */
+    @CrossOrigin
     @GetMapping(path = "/idcheck/{userId}")
     public ResponseEntity<Boolean> isDuplicatedId(@PathVariable(value = "userId") String userId) {
         return ResponseEntity.ok(userService.isDuplicatedId(userId));
@@ -69,6 +74,7 @@ public class UserController {
      * 
      * @return ok, "deleted"
      */
+    @CrossOrigin
     @DeleteMapping(path = "/delete")
     public ResponseEntity<String> deleteUser(Authentication authentication) {
         userService.deleteUser(authentication);
@@ -82,6 +88,7 @@ public class UserController {
      * 
      * @return ok, userDto.GetUserResponseDto
      */
+    @CrossOrigin
     @GetMapping(path = "/info")
     public ResponseEntity<UserDto.GetUserResponseDto> getUserInfo(Authentication authentication) {
         return ResponseEntity.ok(userService.getUser(authentication));
