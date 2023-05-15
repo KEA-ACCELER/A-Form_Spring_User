@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.aform.spring_user.domain.user.User;
+import com.aform.spring_user.domain.user.UserRepository;
 import com.aform.spring_user.service.UserService;
 import com.aform.spring_user.utils.JwtUtil;
 
@@ -28,6 +30,9 @@ public class JwtTokenFilter extends OncePerRequestFilter{ // 모든 요청마다
     private final UserService userService;
     
     private final String secretKey;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException { 
@@ -52,7 +57,10 @@ public class JwtTokenFilter extends OncePerRequestFilter{ // 모든 요청마다
             return;
         }
         // Token에서 유저 정보 꺼내기
-        String userName = JwtUtil.getUserId(token, secretKey);
+        String userName = JwtUtil.getUserId(token, secretKey); 
+        Long userPk = Long.parseLong(JwtUtil.getUserPk(token, secretKey));
+        User user = userRepository.findByUserPk(userPk);
+
         log.info("userName : "+userName);
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName, null, List.of(new SimpleGrantedAuthority("USER"))); //권한 부여

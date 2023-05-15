@@ -46,8 +46,8 @@ public class UserService {
         if (!passwordEncoder.matches(loginRequestDto.getUserPw(), user.getUserPw())) {// 평문, 암호화 순. 순서 유의
             return "비밀번호가 일치하지 않습니다.";
         }
-
-        String token = JwtUtil.createJwt(user.getUserId(), secretKey, expireMS);
+        
+        String token = JwtUtil.createJwt(user.getUserPk(), user.getUserId(), secretKey, expireMS);
         // System.out.println("token  " + token);
         return token;
     }
