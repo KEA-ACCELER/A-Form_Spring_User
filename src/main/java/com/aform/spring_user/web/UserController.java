@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.aform.spring_user.domain.user.User;
 import com.aform.spring_user.service.UserService;
 import com.aform.spring_user.web.dto.UserDto;
 
-@Controller
-@RequestMapping(path = "/app/user")
+@RestController
+@RequestMapping(path = "/api/user")
 public class UserController {
     @Autowired
     UserService userService;

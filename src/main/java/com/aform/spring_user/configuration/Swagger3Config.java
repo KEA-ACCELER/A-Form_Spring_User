@@ -18,9 +18,9 @@ public class Swagger3Config {
   @Bean
   public OpenAPI openAPI() {
     Info info = new Info()
-        .title("타이틀 입력")
+        .title("User API")
         .version(springdocVersion)
-        .description("API에 대한 설명 부분");
+        .description("API for user domain");
 
     return new OpenAPI()
         .components(new Components())

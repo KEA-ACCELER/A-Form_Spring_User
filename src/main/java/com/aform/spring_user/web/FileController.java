@@ -16,7 +16,7 @@ import com.aform.spring_user.service.FileService;
 import com.aform.spring_user.web.dto.FileDto;
 
 @RestController
-@RequestMapping(path = "/app/file")
+@RequestMapping(path = "/api/file")
 public class FileController {
     
     @Autowired
