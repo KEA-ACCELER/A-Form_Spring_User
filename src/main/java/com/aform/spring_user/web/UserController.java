@@ -70,7 +70,7 @@ public class UserController {
      * 
      * @return ok
      */
-    @GetMapping(path = "/idcheck/{userId}")
+    @GetMapping(path = "/idCheck/{userId}")
     public ResponseEntity<Boolean> isDuplicatedId(@PathVariable(value = "userId") String userId) {
         return ResponseEntity.ok(userService.isDuplicatedId(userId));
     }

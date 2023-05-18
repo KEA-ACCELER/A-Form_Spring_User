@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션저장기능
                                                                                                                 // // 제거
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/user/login", "/api/user/join", "/api/user/Idcheck/**",
+                        .requestMatchers("/api/user/login", "/api/user/join", "/api/user/idCheck/**",
                                 "/v3/**", "/swagger-ui/**", "/api-docs*/**", "/api/user/test", "/api/user/test2")
                         .permitAll()
                         .anyRequest().authenticated())

@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.aform.spring_user.domain.user.User;
 import com.aform.spring_user.domain.user.UserRepository;
 import com.aform.spring_user.service.UserService;
 import com.aform.spring_user.utils.JwtUtil;
@@ -42,7 +41,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{ // 모든 요청마다
 
         if (authorization == null || !authorization.startsWith("Bearer ")){ // 토큰이 없으면 권한부여 하지 않기
 
-            log.error(" ERROR : authenticationHeader is null");
+            log.error(" WARN : authenticationHeader is null");
             filterChain.doFilter(request, response);
             return;
         }
