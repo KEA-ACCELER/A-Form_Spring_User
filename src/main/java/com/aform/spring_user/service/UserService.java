@@ -58,6 +58,7 @@ public class UserService {
 
         User user = userRepository.findByUserId(authentication.getName());
         return UserDto.GetUserResponseDto.builder()
+                .userPk(user.getUserPk())
                 .userId(user.getUserId())
                 .userPw(user.getUserPw())
                 .email(user.getEmail())

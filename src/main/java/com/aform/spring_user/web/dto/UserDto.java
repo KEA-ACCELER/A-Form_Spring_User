@@ -15,6 +15,7 @@ public class UserDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class GetUserResponseDto {
+        private Long userPk;
         private String userId ;
         private String userPw;
         private String email;
@@ -25,7 +26,8 @@ public class UserDto {
         private Boolean gender;
 
         @Builder
-        public GetUserResponseDto(String userId, String userPw, String email, String name, String phone, String address, LocalDateTime birth, Boolean gender){
+        public GetUserResponseDto(Long userPk,String userId, String userPw, String email, String name, String phone, String address, LocalDateTime birth, Boolean gender){
+            this.userPk = userPk;
             this.userId = userId;
             this.userPw = userPw;
             this.email = email;

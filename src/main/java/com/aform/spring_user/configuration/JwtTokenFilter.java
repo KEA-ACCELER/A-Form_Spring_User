@@ -58,8 +58,8 @@ public class JwtTokenFilter extends OncePerRequestFilter{ // 모든 요청마다
         }
         // Token에서 유저 정보 꺼내기
         String userName = JwtUtil.getUserId(token, secretKey); 
-        Long userPk = Long.parseLong(JwtUtil.getUserPk(token, secretKey));
-        User user = userRepository.findByUserPk(userPk);
+        //Long userPk = Long.parseLong(JwtUtil.getUserPk(token, secretKey));
+        //User user = userRepository.findByUserPk(userPk);
 
         log.info("userName : "+userName);
 
